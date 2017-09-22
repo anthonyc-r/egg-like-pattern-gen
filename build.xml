@@ -1,0 +1,39 @@
+<project>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes">
+			<classpath>
+				<pathelement path="src/commons-math3-3.6.jar"/>
+			</classpath>
+		</javac>
+		<mkdir dir="build/res"/>
+		<copy file="src/commons-math3-3.6.jar" todir="build/classes"/>
+		<copy file="res/inkjets.xml" todir="build/res"/>
+		<copy file="res/rotations.xml" todir="build/res"/>
+		<copy file="res/full-egg-hollow.obj" todir="build/res"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/Egg.jar" basedir="build/classes">
+            <zipgroupfileset dir="src" includes="commons-math3-3.6.jar"/>
+			<manifest>
+                <attribute name="Main-Class" value="simulation.Main"/>
+            </manifest>
+        </jar>
+		<mkdir dir="build/jar/res"/>
+		<copy file="res/inkjets.xml" todir="build/jar/res"/>
+		<copy file="res/rotations.xml" todir="build/jar/res"/>
+		<copy file="res/full-egg-hollow.obj" todir="build/jar/res"/>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/Egg.jar" fork="true"/>
+    </target>
+
+</project>
